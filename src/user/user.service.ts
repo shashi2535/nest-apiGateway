@@ -1,16 +1,17 @@
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { IHeroesService } from 'src/proto-types/src/proto/user';
+import { IUserService } from 'src/proto-types/src/proto/user';
 
 @Injectable()
 export class UserService implements OnModuleInit {
-  private usersService: IHeroesService;
-  constructor(@Inject('hero') private client: ClientGrpc) {}
+  private usersService: IUserService;
+  constructor(@Inject('user') private client: ClientGrpc) {}
   onModuleInit() {
-    this.usersService = this.client.getService<IHeroesService>('HeroesService');
+    this.usersService = this.client.getService<IUserService>('UserService');
   }
-  async getHello() {
-    console.log('in app service in api gateway');
-    return await this.usersService.FindOne({ id: 1 });
+  async createUser(createUserDto) {
+    const data = await this.usersService.Signup(createUserDto);
+    console.log('in app service in api gateway', data.createdAt);
+    return data;
   }
 }

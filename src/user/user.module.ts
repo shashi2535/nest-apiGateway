@@ -7,10 +7,10 @@ import { UserService } from './user.service';
   imports: [
     ClientsModule.register([
       {
-        name: 'hero',
+        name: 'user',
         transport: Transport.GRPC,
         options: {
-          package: 'hero',
+          package: 'user',
           protoPath: join(__dirname, '../../src/proto/user.proto'),
         },
       },

@@ -3,40 +3,66 @@ import * as _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "hero";
 
-export interface HeroById {
-  id: number;
-}
-
-export interface Hero {
-  id: number;
+export interface signupRequest {
   name: string;
+  email: string;
+  password: string;
 }
 
-function createBaseHeroById(): HeroById {
-  return { id: 0 };
+export interface signupResponse {
+  userUuid: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
-export const HeroById = {
-  encode(message: HeroById, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.id !== 0) {
-      writer.uint32(8).int32(message.id);
+function createBasesignupRequest(): signupRequest {
+  return { name: "", email: "", password: "" };
+}
+
+export const signupRequest = {
+  encode(message: signupRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.name !== "") {
+      writer.uint32(10).string(message.name);
+    }
+    if (message.email !== "") {
+      writer.uint32(18).string(message.email);
+    }
+    if (message.password !== "") {
+      writer.uint32(26).string(message.password);
     }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): HeroById {
+  decode(input: _m0.Reader | Uint8Array, length?: number): signupRequest {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseHeroById();
+    const message = createBasesignupRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag !== 8) {
+          if (tag !== 10) {
             break;
           }
 
-          message.id = reader.int32();
+          message.name = reader.string();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.password = reader.string();
           continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
@@ -47,56 +73,80 @@ export const HeroById = {
     return message;
   },
 
-  fromJSON(object: any): HeroById {
-    return { id: isSet(object.id) ? globalThis.Number(object.id) : 0 };
+  fromJSON(object: any): signupRequest {
+    return {
+      name: isSet(object.name) ? globalThis.String(object.name) : "",
+      email: isSet(object.email) ? globalThis.String(object.email) : "",
+      password: isSet(object.password) ? globalThis.String(object.password) : "",
+    };
   },
 
-  toJSON(message: HeroById): unknown {
+  toJSON(message: signupRequest): unknown {
     const obj: any = {};
-    if (message.id !== 0) {
-      obj.id = Math.round(message.id);
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.email !== "") {
+      obj.email = message.email;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
     }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<HeroById>, I>>(base?: I): HeroById {
-    return HeroById.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<signupRequest>, I>>(base?: I): signupRequest {
+    return signupRequest.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<HeroById>, I>>(object: I): HeroById {
-    const message = createBaseHeroById();
-    message.id = object.id ?? 0;
+  fromPartial<I extends Exact<DeepPartial<signupRequest>, I>>(object: I): signupRequest {
+    const message = createBasesignupRequest();
+    message.name = object.name ?? "";
+    message.email = object.email ?? "";
+    message.password = object.password ?? "";
     return message;
   },
 };
 
-function createBaseHero(): Hero {
-  return { id: 0, name: "" };
+function createBasesignupResponse(): signupResponse {
+  return { userUuid: "", name: "", email: "", password: "", createdAt: "", updatedAt: "" };
 }
 
-export const Hero = {
-  encode(message: Hero, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.id !== 0) {
-      writer.uint32(8).int32(message.id);
+export const signupResponse = {
+  encode(message: signupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.userUuid !== "") {
+      writer.uint32(10).string(message.userUuid);
     }
     if (message.name !== "") {
       writer.uint32(18).string(message.name);
     }
+    if (message.email !== "") {
+      writer.uint32(26).string(message.email);
+    }
+    if (message.password !== "") {
+      writer.uint32(34).string(message.password);
+    }
+    if (message.createdAt !== "") {
+      writer.uint32(42).string(message.createdAt);
+    }
+    if (message.updatedAt !== "") {
+      writer.uint32(50).string(message.updatedAt);
+    }
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): Hero {
+  decode(input: _m0.Reader | Uint8Array, length?: number): signupResponse {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseHero();
+    const message = createBasesignupResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if (tag !== 8) {
+          if (tag !== 10) {
             break;
           }
 
-          message.id = reader.int32();
+          message.userUuid = reader.string();
           continue;
         case 2:
           if (tag !== 18) {
@@ -105,6 +155,34 @@ export const Hero = {
 
           message.name = reader.string();
           continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.email = reader.string();
+          continue;
+        case 4:
+          if (tag !== 34) {
+            break;
+          }
+
+          message.password = reader.string();
+          continue;
+        case 5:
+          if (tag !== 42) {
+            break;
+          }
+
+          message.createdAt = reader.string();
+          continue;
+        case 6:
+          if (tag !== 50) {
+            break;
+          }
+
+          message.updatedAt = reader.string();
+          continue;
       }
       if ((tag & 7) === 4 || tag === 0) {
         break;
@@ -114,52 +192,72 @@ export const Hero = {
     return message;
   },
 
-  fromJSON(object: any): Hero {
+  fromJSON(object: any): signupResponse {
     return {
-      id: isSet(object.id) ? globalThis.Number(object.id) : 0,
+      userUuid: isSet(object.userUuid) ? globalThis.String(object.userUuid) : "",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
+      email: isSet(object.email) ? globalThis.String(object.email) : "",
+      password: isSet(object.password) ? globalThis.String(object.password) : "",
+      createdAt: isSet(object.createdAt) ? globalThis.String(object.createdAt) : "",
+      updatedAt: isSet(object.updatedAt) ? globalThis.String(object.updatedAt) : "",
     };
   },
 
-  toJSON(message: Hero): unknown {
+  toJSON(message: signupResponse): unknown {
     const obj: any = {};
-    if (message.id !== 0) {
-      obj.id = Math.round(message.id);
+    if (message.userUuid !== "") {
+      obj.userUuid = message.userUuid;
     }
     if (message.name !== "") {
       obj.name = message.name;
     }
+    if (message.email !== "") {
+      obj.email = message.email;
+    }
+    if (message.password !== "") {
+      obj.password = message.password;
+    }
+    if (message.createdAt !== "") {
+      obj.createdAt = message.createdAt;
+    }
+    if (message.updatedAt !== "") {
+      obj.updatedAt = message.updatedAt;
+    }
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<Hero>, I>>(base?: I): Hero {
-    return Hero.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<signupResponse>, I>>(base?: I): signupResponse {
+    return signupResponse.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<Hero>, I>>(object: I): Hero {
-    const message = createBaseHero();
-    message.id = object.id ?? 0;
+  fromPartial<I extends Exact<DeepPartial<signupResponse>, I>>(object: I): signupResponse {
+    const message = createBasesignupResponse();
+    message.userUuid = object.userUuid ?? "";
     message.name = object.name ?? "";
+    message.email = object.email ?? "";
+    message.password = object.password ?? "";
+    message.createdAt = object.createdAt ?? "";
+    message.updatedAt = object.updatedAt ?? "";
     return message;
   },
 };
 
-export interface IHeroesService {
-  FindOne(request: HeroById): Promise<Hero>;
+export interface IUserService {
+  Signup(request: signupRequest): Promise<signupResponse>;
 }
 
-export const HeroesServiceServiceName = "hero.HeroesService";
-export class HeroesServiceClientImpl implements IHeroesService {
+export const UserServiceServiceName = "hero.UserService";
+export class UserServiceClientImpl implements IUserService {
   private readonly rpc: Rpc;
   private readonly service: string;
   constructor(rpc: Rpc, opts?: { service?: string }) {
-    this.service = opts?.service || HeroesServiceServiceName;
+    this.service = opts?.service || UserServiceServiceName;
     this.rpc = rpc;
-    this.FindOne = this.FindOne.bind(this);
+    this.Signup = this.Signup.bind(this);
   }
-  FindOne(request: HeroById): Promise<Hero> {
-    const data = HeroById.encode(request).finish();
-    const promise = this.rpc.request(this.service, "FindOne", data);
-    return promise.then((data) => Hero.decode(_m0.Reader.create(data)));
+  Signup(request: signupRequest): Promise<signupResponse> {
+    const data = signupRequest.encode(request).finish();
+    const promise = this.rpc.request(this.service, "Signup", data);
+    return promise.then((data) => signupResponse.decode(_m0.Reader.create(data)));
   }
 }
 

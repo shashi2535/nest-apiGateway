@@ -1,16 +1,23 @@
 syntax = "proto3";
 
-package hero;
+package user;
 
-service HeroesService {
-  rpc FindOne (HeroById) returns (Hero) {}
+service UserService {
+  rpc Signup (signupRequest) returns (signupResponse) {}
 }
 
-message HeroById {
-  int32 id = 1;
+
+message signupRequest {
+  string name = 1;
+  string email =2;
+  string password = 3;
 }
 
-message Hero {
-  int32 id = 1;
+message  signupResponse {
+  string userUuid = 1;
   string name = 2;
+  string email = 3;
+  string password =4;
+  string createdAt = 5;
+  string updatedAt =6;
 }
