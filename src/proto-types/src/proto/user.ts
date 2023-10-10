@@ -1,7 +1,7 @@
 /* eslint-disable */
 import * as _m0 from "protobufjs/minimal";
 
-export const protobufPackage = "hero";
+export const protobufPackage = "user";
 
 export interface signupRequest {
   name: string;
@@ -9,13 +9,19 @@ export interface signupRequest {
   password: string;
 }
 
+export interface data {
+  userUuid?: string;
+  name?: string;
+  email?: string;
+  password?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface signupResponse {
-  userUuid: string;
-  name: string;
-  email: string;
-  password: string;
-  createdAt: string;
-  updatedAt: string;
+  statusCode: number;
+  message: string;
+  result?: data | undefined;
 }
 
 function createBasesignupRequest(): signupRequest {
@@ -107,12 +113,12 @@ export const signupRequest = {
   },
 };
 
-function createBasesignupResponse(): signupResponse {
+function createBasedata(): data {
   return { userUuid: "", name: "", email: "", password: "", createdAt: "", updatedAt: "" };
 }
 
-export const signupResponse = {
-  encode(message: signupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+export const data = {
+  encode(message: data, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.userUuid !== "") {
       writer.uint32(10).string(message.userUuid);
     }
@@ -134,10 +140,10 @@ export const signupResponse = {
     return writer;
   },
 
-  decode(input: _m0.Reader | Uint8Array, length?: number): signupResponse {
+  decode(input: _m0.Reader | Uint8Array, length?: number): data {
     const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBasesignupResponse();
+    const message = createBasedata();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
@@ -192,7 +198,7 @@ export const signupResponse = {
     return message;
   },
 
-  fromJSON(object: any): signupResponse {
+  fromJSON(object: any): data {
     return {
       userUuid: isSet(object.userUuid) ? globalThis.String(object.userUuid) : "",
       name: isSet(object.name) ? globalThis.String(object.name) : "",
@@ -203,7 +209,7 @@ export const signupResponse = {
     };
   },
 
-  toJSON(message: signupResponse): unknown {
+  toJSON(message: data): unknown {
     const obj: any = {};
     if (message.userUuid !== "") {
       obj.userUuid = message.userUuid;
@@ -226,11 +232,11 @@ export const signupResponse = {
     return obj;
   },
 
-  create<I extends Exact<DeepPartial<signupResponse>, I>>(base?: I): signupResponse {
-    return signupResponse.fromPartial(base ?? ({} as any));
+  create<I extends Exact<DeepPartial<data>, I>>(base?: I): data {
+    return data.fromPartial(base ?? ({} as any));
   },
-  fromPartial<I extends Exact<DeepPartial<signupResponse>, I>>(object: I): signupResponse {
-    const message = createBasesignupResponse();
+  fromPartial<I extends Exact<DeepPartial<data>, I>>(object: I): data {
+    const message = createBasedata();
     message.userUuid = object.userUuid ?? "";
     message.name = object.name ?? "";
     message.email = object.email ?? "";
@@ -241,11 +247,102 @@ export const signupResponse = {
   },
 };
 
+function createBasesignupResponse(): signupResponse {
+  return { statusCode: 0, message: "", result: undefined };
+}
+
+export const signupResponse = {
+  encode(message: signupResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.statusCode !== 0) {
+      writer.uint32(8).int32(message.statusCode);
+    }
+    if (message.message !== "") {
+      writer.uint32(18).string(message.message);
+    }
+    if (message.result !== undefined) {
+      data.encode(message.result, writer.uint32(26).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): signupResponse {
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBasesignupResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          if (tag !== 8) {
+            break;
+          }
+
+          message.statusCode = reader.int32();
+          continue;
+        case 2:
+          if (tag !== 18) {
+            break;
+          }
+
+          message.message = reader.string();
+          continue;
+        case 3:
+          if (tag !== 26) {
+            break;
+          }
+
+          message.result = data.decode(reader, reader.uint32());
+          continue;
+      }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
+    }
+    return message;
+  },
+
+  fromJSON(object: any): signupResponse {
+    return {
+      statusCode: isSet(object.statusCode) ? globalThis.Number(object.statusCode) : 0,
+      message: isSet(object.message) ? globalThis.String(object.message) : "",
+      result: isSet(object.result) ? data.fromJSON(object.result) : undefined,
+    };
+  },
+
+  toJSON(message: signupResponse): unknown {
+    const obj: any = {};
+    if (message.statusCode !== 0) {
+      obj.statusCode = Math.round(message.statusCode);
+    }
+    if (message.message !== "") {
+      obj.message = message.message;
+    }
+    if (message.result !== undefined) {
+      obj.result = data.toJSON(message.result);
+    }
+    return obj;
+  },
+
+  create<I extends Exact<DeepPartial<signupResponse>, I>>(base?: I): signupResponse {
+    return signupResponse.fromPartial(base ?? ({} as any));
+  },
+  fromPartial<I extends Exact<DeepPartial<signupResponse>, I>>(object: I): signupResponse {
+    const message = createBasesignupResponse();
+    message.statusCode = object.statusCode ?? 0;
+    message.message = object.message ?? "";
+    message.result = (object.result !== undefined && object.result !== null)
+      ? data.fromPartial(object.result)
+      : undefined;
+    return message;
+  },
+};
+
 export interface IUserService {
   Signup(request: signupRequest): Promise<signupResponse>;
 }
 
-export const UserServiceServiceName = "hero.UserService";
+export const UserServiceServiceName = "user.UserService";
 export class UserServiceClientImpl implements IUserService {
   private readonly rpc: Rpc;
   private readonly service: string;

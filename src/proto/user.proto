@@ -5,19 +5,21 @@ package user;
 service UserService {
   rpc Signup (signupRequest) returns (signupResponse) {}
 }
-
-
 message signupRequest {
   string name = 1;
   string email =2;
   string password = 3;
 }
-
-message  signupResponse {
+message  data {
   string userUuid = 1;
   string name = 2;
   string email = 3;
   string password =4;
   string createdAt = 5;
   string updatedAt =6;
+}
+message signupResponse{
+  int32 statusCode = 1;
+  string message = 2;
+  data result =3;
 }

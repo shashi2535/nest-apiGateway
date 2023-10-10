@@ -10,8 +10,12 @@ export class UserService implements OnModuleInit {
     this.usersService = this.client.getService<IUserService>('UserService');
   }
   async createUser(createUserDto) {
-    const data = await this.usersService.Signup(createUserDto);
-    console.log('in app service in api gateway', data.createdAt);
-    return data;
+    try {
+      const data = await this.usersService.Signup(createUserDto);
+      console.log('in app service in api gateway', data);
+      return data;
+    } catch (err) {
+      console.log('err in api gatredfd', err);
+    }
   }
 }
